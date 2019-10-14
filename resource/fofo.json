@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1,
+    "pId": 0,
+    "name": "纸张与文档",
+    "ename": "Page",
+    "open": true,
+    "children": [
+      {
+        "id": 11,
+        "pId": 10,
+        "name": "表格",
+        "ename": "Table",
+        "open": true,
+        "children": [
+          {
+            "id": 111,
+            "pId": 110,
+            "name": "单元格",
+            "ename": "Cell",
+            "open": true,
+            "children": [
+              {
+                "id": 1111,
+                "pId": 1110,
+                "name": "段落",
+                "ename": "Paragraph"
+              }
+            ]
+          },
+          {
+            "id": 112,
+            "pId": 111,
+            "name": "单元格",
+            "ename": "Cell",
+            "isParent": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "pId": 1,
+    "name": "图片",
+    "ename": "Image"
+  }
+]

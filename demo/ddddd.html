@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../jquery-ui.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <script src="../external/jquery-3.1.1/jquery.js"></script>
+    <script src="../external/jquery-migrate-3.0.0/jquery-migrate.js"></script>
+    <!--    <script src="../external/requirejs/require.js"></script>-->
+    <script src="../jquery-ui.js"></script>
+    <link rel="stylesheet" href="../css/demo.css" type="text/css">
+    <link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <!--    <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>-->
+    <script type="text/javascript" src="../js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="../js/jquery.ztree.excheck.js"></script>
+    <script type="text/javascript" src="../js/jquery.ztree.exedit.js"></script>
+    <script type="text/javascript" src="../js/Editor_fun.js"></script>
+    <!--    <script type="text/javascript" src="../bootstrap.js"></script>-->
+
+
+    <script>
+        $(function () {
+            $("#accordion").accordion({
+                collapsible: true
+            });
+            $("#accordion").accordion({
+                heightStyle: "content"
+            });
+
+        });
+
+        $(function () {
+            $("#accordion-resizer").resizable({
+                minHeight: 140,
+                minWidth: 200,
+                resize: function () {
+                    $("#accordion").accordion("refresh");
+                }
+            });
+        });
+
+    </script>
+    <style>
+        body {
+            font-family: "Trebuchet MS", sans-serif;
+            margin: 50px;
+        }
+
+        .demoHeaders {
+            margin-top: 2em;
+        }
+
+        #dialog-link {
+            padding: .4em 1em .4em 20px;
+            text-decoration: none;
+            position: relative;
+        }
+
+        #dialog-link span.ui-icon {
+            margin: 0 5px 0 0;
+            position: absolute;
+            left: .2em;
+            top: 50%;
+            margin-top: -8px;
+        }
+
+        #icons {
+            margin: 0;
+            padding: 0;
+        }
+
+        #icons li {
+            margin: 2px;
+            position: relative;
+            padding: 4px 0;
+            cursor: pointer;
+            float: left;
+            list-style: none;
+        }
+
+        #icons span.ui-icon {
+            float: left;
+            margin: 0 4px;
+        }
+
+        .fakewindowcontain .ui-widget-overlay {
+            position: absolute;
+        }
+
+        select {
+            width: 200px;
+        }
+
+        div#rMenu {
+            position: absolute;
+            visibility: hidden;
+            top: 0;
+            background-color: #555;
+            text-align: left;
+            padding: 2px;
+        }
+
+        div#rMenu ul li {
+            margin: 1px 0;
+            padding: 0 5px;
+            cursor: pointer;
+            list-style: none outside none;
+            background-color: #DFDFDF;
+        }
+
+        /*input {*/
+        /*    width: 160px !important;*/
+        /*}*/
+        /*span {*/
+        /*    width: 40px !important;*/
+        /*}*/
+    </style>
+
+</head>
+</head>
+<body>
+<!--<div id="accordion-resizer" class="ui-widget-content">-->
+<!--    <div id="accordion">-->
+<!--        -->
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon">
+
+                    </span>
+                    <span class="input-group-addon">
+                        <input type="checkbox" aria-label="...">
+                    </span>
+                    <input type="text" class="form-control" aria-label="...">
+                </div>
+            </div>
+        </div>
+        <!--        <h3>整体设置</h3>-->
+        <!--        <div>-->
+        <!--            <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis-->
+        <!--                egestas.-->
+        <!--                Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia-->
+        <!--                mauris vel est. </p>-->
+        <!--            <p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu-->
+        <!--                ad-->
+        <!--                litora torquent per conubia nostra, per inceptos himenaeos. </p>-->
+        <!--        </div>-->
+        <!--        <div id="pageProperties" class="row">-->
+        <!--            <div class="col-md-3 col-md-offset-9">-->
+        <!--                <div class="col-md-12">-->
+        <!--                    <div class="panel panel-default">-->
+        <!--                        <div class="panel-heading">纸张设置</div>-->
+        <!--                        <div class="panel-body">-->
+        <!--                            <div class="col-md-12">-->
+        <!--                                <fieldset disabled>-->
+        <!--                                    <div class="form-group">-->
+        <!--                                        <label for="selectPageSize" class="ui-controlgroup-label">纸张尺寸</label>-->
+        <!--                                        <select id="selectPageSize" class="ui-selectable" placeholder="Disabled"-->
+        <!--                                                disabled>-->
+        <!--                                            <option>A4</option>-->
+        <!--                                            <option>A3</option>-->
+        <!--                                            <option>3</option>-->
+        <!--                                            <option>4</option>-->
+        <!--                                            <option>5</option>-->
+        <!--                                        </select>-->
+        <!--                                    </div>-->
+        <!--                                </fieldset>-->
+        <!--                            </div>-->
+        <!--                            <div class="col-md-12">-->
+        <!--                                <div class="col-md-6">-->
+        <!--                                    <div class="radio">-->
+        <!--                                        <label>-->
+        <!--                                            <input type="radio" name="optionsRadios" id="optionsRadios1"-->
+        <!--                                                   value="horizontal" checked>-->
+        <!--                                            横向-->
+        <!--                                        </label>-->
+        <!--                                    </div>-->
+        <!--                                </div>-->
+        <!--                                <div class="col-md-6">-->
+        <!--                                    <div class="radio">-->
+        <!--                                        <label>-->
+        <!--                                            <input type="radio" name="optionsRadios" id="optionsRadios2"-->
+        <!--                                                   value="vertical">-->
+        <!--                                            竖向-->
+        <!--                                        </label>-->
+        <!--                                    </div>-->
+        <!--                                </div>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--                <div class="col-md-12">-->
+        <!--                    <div class="panel panel-default">-->
+        <!--                        <div class="panel-heading">文档设置</div>-->
+        <!--                        <div class="panel-body">-->
+        <!--                            <div class="col-md-12">-->
+        <!--                                <label for="spinnermarginRight" class="ui-controlgroup-label">右边距</label>-->
+        <!--                                <input id="spinnermarginRight" class="ui-spinner-input">-->
+        <!--                            </div>-->
+        <!--                            <div class="col-md-12">-->
+        <!--                                <label for="spinnermarginLeft" class="ui-controlgroup-label">左边距</label>-->
+        <!--                                <input id="spinnermarginLeft" class="ui-spinner-input">-->
+        <!--                            </div>-->
+        <!--                            <div class="col-md-12">-->
+        <!--                                <label for="spinnermarginTop" class="ui-controlgroup-label">上边距</label>-->
+        <!--                                <input id="spinnermarginTop" class="ui-spinner-input">-->
+        <!--                            </div>-->
+        <!--                            <div class="col-md-12">-->
+        <!--                                <label for="spinnermarginBottom" class="ui-controlgroup-label">下边距</label>-->
+        <!--                                <input id="spinnermarginBottom" class="ui-spinner-input">-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+
+        <!--                </div>-->
+
+        <!--            </div>-->
+        <!--        </div>-->
+
+<!--        <h3>内容</h3>-->
+<!--        <div id="pageProperties" class="row">-->
+<!--            <div class="col-md-3 col-md-offset-9">-->
+<!--                <div class="col-md-12">-->
+<!--                    <div class="panel panel-default">-->
+<!--                        <div class="panel-heading"><b>段落设置</b></div>-->
+<!--                        <div class="panel-body">-->
+<!--                            <div class="col-md-12 input-group">-->
+<!--                                <span class="input-group-addon">字段内容</span>-->
+<!--                                <input id="colSpan" class="form-control" value="">-->
+<!--&lt;!&ndash;                                <span class="input-group-addon">列</span>&ndash;&gt;-->
+<!--                            </div>-->
+<!--                            <div class="col-md-12 input-group">-->
+<!--                                <span class="input-group-addon">参数内容</span>-->
+<!--                                <input id="rowSpan" class="form-control" value="">-->
+<!--&lt;!&ndash;                                <span class="input-group-addon">行</span>&ndash;&gt;-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="panel panel-default">-->
+<!--                        <div class="panel-heading"><b>字体设置</b></div>-->
+<!--                        <div class="panel-body">-->
+<!--                            <div class="col-md-12 input-group">-->
+<!--                                <span class="input-group-addon">字体</span>-->
+<!--                                <input id="fontBase" class="form-control" value="">-->
+<!--                            </div>-->
+<!--                            <div class="col-md-12 input-group">-->
+<!--                                <span class="input-group-addon">字号</span>-->
+<!--                                <input id="fontSize" class="form-control" value="">-->
+<!--                            </div>-->
+<!--                            <div class="col-md-12 input-group">-->
+<!--                                <span class="input-group-addon">加粗，斜体</span>-->
+<!--                                <input id="fontStyle" class="form-control" value="">-->
+<!--                                &lt;!&ndash;                                <span class="input-group-addon">列</span>&ndash;&gt;-->
+<!--                            </div>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div id="pageProperties" class="row">-->
+<!--            <div class="col-md-3 col-md-offset-9">-->
+<!--                <div class="col-md-12">-->
+<!--                    <div class="panel panel-default">-->
+<!--                        <div class="panel-heading"><b>段落设置</b></div>-->
+<!--                        <div class="panel-body">-->
+<!--                            <div class="col-md-12 input-group">-->
+<!--                                <span class="input-group-addon">横向跨度</span>-->
+<!--                                <input id="colSpan" class="form-control" value="1">-->
+<!--                                <span class="input-group-addon">列</span>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-12 input-group">-->
+<!--                                <span class="input-group-addon">竖向跨度</span>-->
+<!--                                <input id="rowSpan" class="form-control" value="1">-->
+<!--                                <span class="input-group-addon">行</span>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-12 input-group">-->
+<!--                                <span class="input-group-addon">逆时针旋转角度</span>-->
+<!--                                <input id="rotation" class="form-control" value="0">-->
+<!--                                <span class="input-group-addon">°</span>-->
+<!--                            </div>-->
+<!--                            <table class="table" id="paddings">-->
+<!--                                <thead>-->
+<!--                                <tr>-->
+<!--                                    <th><b>内边距</b></th>-->
+<!--                                </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <label for="paddingLeft" class="ui-controlgroup-label">左边距</label>-->
+<!--                                        <input id="paddingLeft" value="16">-->
+<!--                                        &lt;!&ndash;                                        <span class="input-group-addon">行</span>&ndash;&gt;-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <label for="paddingRight" class="ui-controlgroup-label">右边距</label>-->
+<!--                                        <input id="paddingRight" value="16">-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <label for="paddingTop" class="ui-controlgroup-label">上边距</label>-->
+<!--                                        <input id="paddingTop" value="16">-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <label for="paddingBottom" class="ui-controlgroup-label">下边距</label>-->
+<!--                                        <input id="paddingBottom" value="16">-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                            <table class="table" id="alignment">-->
+<!--                                <thead>-->
+<!--                                <tr>-->
+<!--                                    <th><b>对齐方式</b></th>-->
+<!--                                </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <div class="col-md-12">-->
+<!--                                            <div class="col-md-6">-->
+<!--                                                <div class="radio ">-->
+<!--                                                    <label>-->
+<!--                                                        <input type="radio"-->
+<!--                                                               name="optionsRadioHori"-->
+<!--                                                               id="alignLeft"-->
+<!--                                                               value="horizontal"-->
+<!--                                                               checked>-->
+<!--                                                        左对齐-->
+<!--                                                    </label>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-md-6">-->
+<!--                                                <div class="radio">-->
+<!--                                                    <div>-->
+
+<!--                                                        <label>-->
+<!--                                                            <input type="radio"-->
+<!--                                                                   name="optionsRadioHori"-->
+<!--                                                                   id="alignRight"-->
+<!--                                                                   value="horizontal"-->
+<!--                                                                   checked>-->
+<!--                                                            右对齐-->
+<!--                                                        </label>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <div class="col-md-12">-->
+<!--                                            <div class="col-md-6">-->
+<!--                                                <div class="radio ">-->
+<!--                                                    <label>-->
+<!--                                                        <input type="radio"-->
+<!--                                                               name="optionsRadioVer"-->
+<!--                                                               id="alignTop"-->
+<!--                                                               value="horizontal"-->
+<!--                                                               checked>-->
+<!--                                                        上对齐-->
+<!--                                                    </label>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-md-6">-->
+<!--                                                <div class="radio">-->
+<!--                                                    <div>-->
+
+<!--                                                        <label>-->
+<!--                                                            <input type="radio"-->
+<!--                                                                   name="optionsRadioVer"-->
+<!--                                                                   id="alignBottom"-->
+<!--                                                                   value="horizontal"-->
+<!--                                                                   checked>-->
+<!--                                                            下对齐-->
+<!--                                                        </label>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <!--        <div id="pageProperties" class="row">-->
+        <!--            <div class="col-md-3 col-md-offset-9">-->
+        <!--                <div class="col-md-12">-->
+        <!--                    <div class="panel panel-default">-->
+        <!--                        <div class="panel-heading">表格设置</div>-->
+        <!--                        <div class="panel-body">-->
+        <!--                            <div class="col-md-12 input-group spinner">-->
+        <!--                                <span class="input-group-addon">列数</span>-->
+        <!--                                &lt;!&ndash;                                <label for="spinnerNumCols" class="ui-controlgroup-label">列数</label>&ndash;&gt;-->
+        <!--                                <input id="spinnerNumCols" class="form-control">-->
+        <!--                                <span class="input-group-addon">列</span>-->
+        <!--                            </div>-->
+        <!--                            <div class="input-group">-->
+        <!--                                <span class="input-group-addon">宽占比</span>-->
+        <!--                                <input type="text" class="form-control">-->
+        <!--                                <span class="input-group-addon">%</span>-->
+        <!--                            </div>-->
+
+        <!--                            <table class="table" id="cols">-->
+        <!--                                <thead>-->
+        <!--                                <tr>-->
+        <!--                                    <th>每列相对宽度</th>-->
+        <!--                                </tr>-->
+        <!--                                </thead>-->
+        <!--                                <tbody>-->
+        <!--                                <tr>-->
+        <!--                                    <td>-->
+        <!--                                        <div class="input-group">-->
+        <!--                                            <span class="input-group-addon">第1列</span>-->
+        <!--                                            <input id="col111111" class="form-group">-->
+        <!--                                        </div>-->
+        <!--                                    </td>-->
+        <!--                                </tr>-->
+        <!--                                </tbody>-->
+        <!--                            </table>-->
+
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--                <div class="col-md-12">-->
+        <!--                    <div class="panel panel-default">-->
+        <!--                        <div class="panel-heading">文档设置</div>-->
+        <!--                        <div class="panel-body">-->
+
+        <!--                            <div class="col-md-12">-->
+        <!--                                <label for="spinnermarginLeft" class="ui-controlgroup-label">左边距</label>-->
+        <!--                                <input id="spinnermarginLeft" class="ui-spinner-input">-->
+        <!--                            </div>-->
+        <!--                            <div class="col-md-12">-->
+        <!--                                <label for="spinnermarginTop" class="ui-controlgroup-label">上边距</label>-->
+        <!--                                <input id="spinnermarginTop" class="ui-spinner-input">-->
+        <!--                            </div>-->
+        <!--                            <div class="col-md-12">-->
+        <!--                                <label for="spinnermarginBottom" class="ui-controlgroup-label">下边距</label>-->
+        <!--                                <input id="spinnermarginBottom" class="ui-spinner-input">-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+
+        <!--                </div>-->
+
+
+        <!--        <div>-->
+        <!--            &lt;!&ndash;        <div class="content_wrap">&ndash;&gt;-->
+        <!--            <div class="row">-->
+
+        <!--                <div class=" col-lg-2">-->
+        <!--                    <ul id="treeDemo" class="ztree"></ul>-->
+        <!--                </div>-->
+        <!--                <div class=" col-lg-7">-->
+        <!--                    <ul class="info">-->
+        <!--                        <a id="addCell" href="#" title="增加Cell" onclick="return false;">增加Cell</a>-->
+        <!--                        <a id="addTable" href="#" title="增加Table" onclick="return false;">增加Table</a>-->
+        <!--                        <a id="addPhrase" href="#" title="增加Phrase" onclick="return false;">增加Phrase</a>-->
+        <!--                        <a id="addImage" href="#" title="增加Image" onclick="return false;">增加Image</a>-->
+        <!--                        <a id="remove" href="#" title="删除节点" onclick="return false;">删除节点</a>-->
+        <!--                        <a id="clearChildren" href="#" title="清空子节点" onclick="return false;">清空子节点</a>-->
+        <!--                        <ul id="log" class="log"></ul>-->
+        <!--                    </ul>-->
+        <!--                </div>-->
+        <!--                <div id="properties" class="col-lg-3">-->
+        <!--                    dsfdfsfsf-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+
+
+        <!--    </div>-->
+        <!--        <h3>Section 3</h3>-->
+        <!--        <div>-->
+        <!--            <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis. Phasellus pellentesque purus-->
+        <!--                in-->
+        <!--                massa. Aenean in pede. Phasellus ac libero ac tellus pellentesque semper. Sed ac felis. Sed commodo,-->
+        <!--                magna-->
+        <!--                quis lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui. </p>-->
+        <!--            <ul>-->
+        <!--                <li>List item one</li>-->
+        <!--                <li>List item two</li>-->
+        <!--                <li>List item three</li>-->
+        <!--            </ul>-->
+        <!--        </div>-->
+        <!--        <h3>Section 4</h3>-->
+
+<!--    </div>-->
+    <div id="rMenu">
+        <ul>
+            <li id="m_add" onclick="addTreeNode();">增加节点</li>
+            <li id="m_del" onclick="removeTreeNode();">删除节点</li>
+            <li id="m_check" onclick="checkTreeNode(true);">Check节点</li>
+            <li id="m_unCheck" onclick="checkTreeNode(false);">unCheck节点</li>
+            <li id="m_reset" onclick="resetTree();">恢复zTree</li>
+        </ul>
+    </div>
+</div>
+<script>
+    $("#spinner").spinner();
+    $("#spinner2").spinner();
+    $("#spinner3").spinner();
+    $("#spinner4").spinner();
+    $("#spinner11").spinner();
+    $("#selectmenu").selectmenu();
+    $("#spinnermarginRight").spinner();
+    $("#spinnermarginLeft").spinner();
+    $("#spinnerCol00").spinner();
+    $("#spinnermarginTop").spinner();
+    $("#spinnermarginBottom").spinner();
+    // $("#spinnerNumCols").spinner();
+    // $("#spinnerNumCols").blur(function () {
+    //     var numCols = $("#spinnerNumCols").val();
+    //     $("#cols>tbody").html('');
+    //     $("#cols>thead").html('');
+    //     if (numCols > 0) {
+    //         $("#cols>thead").html('<tr>\n' +
+    //             '                                    <th>每列相对宽度</th>\n' +
+    //             '                                </tr>');
+    //     }
+    //     for (var i = 1; i <= numCols; i++) {
+    //         $("#cols>tbody").append('<tr>\n' +
+    //             '                                    <td>\n' +
+    //             '                                        <label for="spinnerCol' + i + '" class="input-group-addon">第' + i + '列</label>\n' +
+    //             '                                        <input id="spinnerCol' + i + '">\n' +
+    //             '                                    </td>\n' +
+    //             '                                </tr>');
+    //         $("#spinnerCol" + i).spinner();
+    //     }
+    // });
+    // $("#selectmenuPaperDirection").spinner();
+    $("#spinner11-").spinner();
+    // $("#controlgroup").controlgroup();
+</script>
+</body>
+
+</html>

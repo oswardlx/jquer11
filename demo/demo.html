@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../jquery-ui.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <script src="../external/jquery-3.1.1/jquery.js"></script>
+<!--    <script src="../external/jquery-3.1.1/jquery-1.4.4.min.js"></script>-->
+<!--    jquery-1.4.4.min.js-->
+    <script src="../external/jquery-migrate-3.0.0/jquery-migrate.js"></script>
+    <!--    <script src="../external/requirejs/require.js"></script>-->
+    <script src="../jquery-ui.js"></script>
+    <link rel="stylesheet" href="../css/demo.css" type="text/css">
+    <link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <!--    <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>-->
+    <script type="text/javascript" src="../js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="../js/jquery.ztree.excheck.js"></script>
+    <script type="text/javascript" src="../js/jquery.ztree.exedit.js"></script>
+    <script type="text/javascript" src="../js/Editor_fun.js"></script>
+    <script type="text/javascript" src="../js/jquery.media.js"></script>
+    <!--    <script type="text/javascript" src="../bootstrap.js"></script>-->
+
+
+    <script>
+        $(function () {
+            $("#accordion").accordion({
+                collapsible: true
+            });
+            $("#accordion").accordion({
+                heightStyle: "content"
+            });
+
+        });
+
+    </script>
+    <style>
+        body {
+            font-family: "Trebuchet MS", sans-serif;
+            margin: 50px;
+        }
+
+        .demoHeaders {
+            margin-top: 2em;
+        }
+
+        #dialog-link {
+            padding: .4em 1em .4em 20px;
+            text-decoration: none;
+            position: relative;
+        }
+
+        #dialog-link span.ui-icon {
+            margin: 0 5px 0 0;
+            position: absolute;
+            left: .2em;
+            top: 50%;
+            margin-top: -8px;
+        }
+
+        #icons {
+            margin: 0;
+            padding: 0;
+        }
+
+        #icons li {
+            margin: 2px;
+            position: relative;
+            padding: 4px 0;
+            cursor: pointer;
+            float: left;
+            list-style: none;
+        }
+
+        #icons span.ui-icon {
+            float: left;
+            margin: 0 4px;
+        }
+
+        .fakewindowcontain .ui-widget-overlay {
+            position: absolute;
+        }
+
+        select {
+            width: 200px;
+        }
+
+        div#rMenu {
+            position: absolute;
+            visibility: hidden;
+            top: 0;
+            background-color: #555;
+            text-align: left;
+            padding: 2px;
+        }
+
+        div#rMenu ul li {
+            margin: 1px 0;
+            padding: 0 5px;
+            cursor: pointer;
+            list-style: none outside none;
+            background-color: #DFDFDF;
+        }
+        #properties {
+            height: 500px;
+            overflow: auto;
+        }
+        #htmlPrint {
+            height: 600px;
+            width: 800px;
+            overflow: auto;
+        }
+    </style>
+
+</head>
+</head>
+<body>
+<div class="btn-group" role="group" aria-label="...">
+    <button type="button" class="btn btn-default" onclick="printNode()">输出</button>
+    <button type="button" class="btn btn-default" onclick="copy()">复制</button>
+    <button type="button" class="btn btn-default" onclick="shoot()">Right</button>
+</div>
+<!--<div id="accordion">-->
+<!--    <h3>内容</h3>-->
+    <div>
+        <!--        <div class="content_wrap">-->
+        <div class="row">
+            <div class=" col-md-2">
+                <ul id="treeDemo" class="ztree"></ul>
+            </div>
+<!--            <div class="col-md-7" id = "middle">-->
+            <div class="col-md-7" id = "htmlPrint">
+<!--                <div id ="htmlPrint">-->
+<!--                </div>-->
+<!--                <pre id = "htmlPrint">-->
+
+<!--                </pre>-->
+
+            </div>
+
+            <div id="properties" class="col-md-3">
+            </div>
+        </div>
+    </div>
+<!--    <textarea id = "htmlPrint" hidden>-->
+
+<!--    </textarea>-->
+<div>
+
+</div>
+<!--    &lt;!&ndash;    </div>&ndash;&gt;-->
+<!--    <h3>Section 3</h3>-->
+<!--    <div>-->
+<!--        <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis. Phasellus pellentesque purus-->
+<!--            in-->
+<!--            massa. Aenean in pede. Phasellus ac libero ac tellus pellentesque semper. Sed ac felis. Sed commodo,-->
+<!--            magna-->
+<!--            quis lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui. </p>-->
+<!--        <ul>-->
+<!--            <li>List item one</li>-->
+<!--            <li>List item two</li>-->
+<!--            <li>List item three</li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--    <h3>Section 4</h3>-->
+<!--    <div>-->
+<!--        <p>Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis-->
+<!--            egestas.-->
+<!--            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia-->
+<!--            mauris vel est. </p>-->
+<!--        <p>Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus. Class aptent taciti sociosqu-->
+<!--            ad-->
+<!--            litora torquent per conubia nostra, per inceptos himenaeos. </p>-->
+<!--    </div>-->
+<!--</div>-->
+<div id="rMenu">
+    <ul>
+<!--        <li id="m_add" onclick="addTreeNode();">增加节点</li>-->
+        <li id="m_addTable" onclick="addTreeElement('Table');">增加表格</li>
+        <li id="m_addCell" onclick="addTreeElement('Cell');">增加单元格</li>
+        <li id="m_addParagraph" onclick="addTreeElement('Paragraph');">增加字段</li>
+        <li id="m_addChunk" onclick="addTreeElement('Chunk');">增加块</li>
+        <li id="m_addImage" onclick="addTreeElement('Image');">增加图片</li>
+        <li id="m_del" onclick="removeTreeNode();">删除节点</li>
+        <li id="copy" >复制</li>
+        <li id="cut" >剪切</li>
+        <li id="paste" >粘贴</li>
+<!--        <li id="m_check" onclick="checkTreeNode(true);">Check节点</li>-->
+<!--        <li id="m_unCheck" onclick="checkTreeNode(false);">unCheck节点</li>-->
+<!--        <li id="m_reset" onclick="resetTree();">恢复zTree</li>-->
+    </ul>
+</div>
+<script>
+    // $("#spinner").spinner();
+    // $("#spinner2").spinner();
+    // $("#spinner3").spinner();
+    // $("#spinner4").spinner();
+    // $("#spinner11").spinner();
+    // $("#selectmenu").selectmenu();
+    // $("#controlgroup").controlgroup();
+</script>
+</body>
+
+</html>
