@@ -47,31 +47,64 @@ var zNodes = [
         name: "纸张与文档",
         ename: "Page",
         open: true,
+        pageSize: "A4",
+        pageRotate: "vertical",
+        marginRight: "16",
+        marginLeft: "16",
+        marginTop: "16",
+        marginBottom: "16",
+        level: 0,
         children: [{
             id: 11,
             pId: 10,
             name: "表格",
+            level: 1,
             ename: "Table",
             open: true,
+            colsRadioArr: [1],
+            numCols: 1,
+            widthRadio: 100,
             children: [{
                 id: 111,
                 pId: 110,
                 name: "单元格",
                 ename: "Cell",
                 open: true,
+                colSpan: 1,
+                rowSpan: 1,
+                level: 2,
+                rotation: 0,
+                paddingLeft: 0,
+                paddingTop: 0,
+                paddingRight: 0,
+                paddingBottom: 0,
+                borderWidthLeft: 0,
+                borderWidthRight: 0,
+                borderWidthTop: 0,
+                borderWidthBottom: 0,
+                horizontalAlignment: 0,
+                verticalAlignment: 0,
                 children: [{
                     id: 1111,
                     pId: 1110,
                     name: "段落",
                     ename: "Paragraph",
+                    level: 4,
                     isParent: true,
                     open: true,
-                    children: [{id: 11111, pId: 11110, name: "块", ename: "Chunk", isParent: false}]
+                    children: [{
+                        id: 11111,
+                        pId: 11110,
+                        name: "块",
+                        level: 5,
+                        text: "I AM HEAR",
+                        ename: "Chunk",
+                        isParent: false
+                    }]
                 }]
-            }, {id: 112, pId: 111, name: "单元格", ename: "Cell", isParent: true}]
+            }]
         },]
-    },
-    {id: 2, pId: 1, name: "图片", ename: "Image"},
+    }
 
 ];
 var log, className = "dark";
@@ -392,15 +425,16 @@ function cellAction(tNode) {
     var rotation = parseInt(tNode.rotation);
     var cellHeight = parseInt(tNode.cellHeight);
     var paddingLeft = parseInt(tNode.paddingLeft);
-    var paddingRight = parseInt(Node.paddingRight);
+    var paddingRight = parseInt(tNode.paddingRight);
     var paddingTop = parseInt(tNode.paddingTop);
     var paddingBottom = parseInt(tNode.paddingBottom);
-    var leftBorder = parseFloat(tNode.leftBorder);
-    var rightBorder = parseFloat(Node.rightBorder);
-    var topBorder = parseFloat(tNode.topBorder);
-    var bottomBorder = parseFloat(tNode.bottomBorder);
+    var borderWidthLeft = parseFloat(tNode.borderWidthLeft);
+    var borderWidthRight = parseFloat(tNode.borderWidthRight);
+    var borderWidthTop = parseFloat(tNode.borderWidthTop);
+    var borderWidthBottom = parseFloat(tNode.borderWidthBottom);
     var horizontalAlignment = tNode.horizontalAlignment;
     var verticalAlignment = tNode.verticalAlignment;
+    var parameter = tNode.parameter;
     if (!colSpan)
         colSpan = 1;
     if (!rowSpan)
@@ -417,14 +451,16 @@ function cellAction(tNode) {
         paddingTop = 0;
     if (!paddingRight)
         paddingRight = 0;
-    if (!leftBorder)
-        leftBorder = 0;
-    if (!rightBorder)
-        rightBorder = 0;
-    if (!topBorder)
-        topBorder = 0;
-    if (!bottomBorder)
-        bottomBorder = 0;
+    if (!borderWidthLeft)
+        borderWidthLeft = 0;
+    if (!borderWidthRight)
+        borderWidthRight = 0;
+    if (!borderWidthTop)
+        borderWidthTop = 0;
+    if (!borderWidthBottom)
+        borderWidthBottom = 0;
+    if (!parameter)
+        parameter = "{}";
     if (!horizontalAlignment)
         horizontalAlignment = "hMiddle";
     if (!verticalAlignment)
@@ -437,10 +473,11 @@ function cellAction(tNode) {
     $('#paddingRight').val(paddingRight);
     $('#paddingTop').val(paddingTop);
     $('#paddingBottom').val(paddingBottom);
-    $('#leftBorder').val(leftBorder);
-    $('#rightBorder').val(rightBorder);
-    $('#topBorder').val(topBorder);
-    $('#bottomBorder').val(bottomBorder);
+    $('#borderWidthLeft').val(borderWidthLeft);
+    $('#borderWidthRight').val(borderWidthRight);
+    $('#borderWidthTop').val(borderWidthTop);
+    $('#borderWidthBottom').val(borderWidthBottom);
+    $('#parameter').val(parameter);
     $("input:radio[value='" + verticalAlignment + "']").prop('checked', 'true');
     $("input:radio[value='" + horizontalAlignment + "']").prop('checked', 'true');
 }
@@ -691,26 +728,26 @@ function getSettingHtml(nodeName, tNode) {
             '                                <tbody>\n' +
             '                                <tr>\n' +
             '                                    <td>\n' +
-            '                                        <label for="leftBorder" class="ui-controlgroup-label">左边框</label>\n' +
-            '                                        <input id="leftBorder" value="0">\n' +
+            '                                        <label for="borderWidthLeft" class="ui-controlgroup-label">左边框</label>\n' +
+            '                                        <input id="borderWidthLeft" value="0">\n' +
             '                                    </td>\n' +
             '                                </tr>\n' +
             '                                <tr>\n' +
             '                                    <td>\n' +
-            '                                        <label for="rightBorder" class="ui-controlgroup-label">右边框</label>\n' +
-            '                                        <input id="rightBorder" value="0">\n' +
+            '                                        <label for="borderWidthRight" class="ui-controlgroup-label">右边框</label>\n' +
+            '                                        <input id="borderWidthRight" value="0">\n' +
             '                                    </td>\n' +
             '                                </tr>\n' +
             '                                <tr>\n' +
             '                                    <td>\n' +
-            '                                        <label for="topBorder" class="ui-controlgroup-label">上边框</label>\n' +
-            '                                        <input id="topBorder" value="0">\n' +
+            '                                        <label for="borderWidthTop" class="ui-controlgroup-label">上边框</label>\n' +
+            '                                        <input id="borderWidthTop" value="0">\n' +
             '                                    </td>\n' +
             '                                </tr>\n' +
             '                                <tr>\n' +
             '                                    <td>\n' +
-            '                                        <label for="bottomBorder" class="ui-controlgroup-label">下边框</label>\n' +
-            '                                        <input id="bottomBorder" value="0">\n' +
+            '                                        <label for="borderWidthBottom" class="ui-controlgroup-label">下边框</label>\n' +
+            '                                        <input id="borderWidthBottom" value="0">\n' +
             '                                    </td>\n' +
             '                                </tr>\n' +
             '                                </tbody>\n' +
@@ -1055,6 +1092,10 @@ function savePropertiesOfTable(node) {
     node.widthRadio = parseInt($('#widthRadio').val());
 }
 
+/**
+ * 给Chunk赋值
+ * @param node
+ */
 function savePropertiesOfChunk(node) {
     node.text = $('#text').val();
     node.parameter = $('#parameter').val();
@@ -1076,10 +1117,11 @@ function savePropertiesOfCell(node) {
     node.paddingRight = parseInt($('#paddingRight').val());
     node.paddingTop = parseInt($('#paddingTop').val());
     node.paddingBottom = parseInt($('#paddingBottom').val());
-    node.leftBorder = parseFloat($('#leftBorder').val());
-    node.rightBorder = parseFloat($('#rightBorder').val());
-    node.topBorder = parseFloat($('#topBorder').val());
-    node.bottomBorder = parseFloat($('#bottomBorder').val());
+    node.borderWidthLeft = parseFloat($('#borderWidthLeft').val());
+    node.borderWidthRight = parseFloat($('#borderWidthRight').val());
+    node.borderWidthTop = parseFloat($('#borderWidthTop').val());
+    node.borderWidthBottom = parseFloat($('#borderWidthBottom').val());
+    node.parameter = $('#parameter').val();
     node.horizontalAlignment = $('input[name="optionsRadioHori"]:checked').val();
     node.verticalAlignment = $('input[name="optionsRadioVer"]:checked').val();
 }
@@ -1097,6 +1139,7 @@ function beforeClickSave(treeId, treeNode, clickFlag) {
 function beforeClick(treeId, treeNode) {
 
 }
+
 /**
  * 保存上一步操作
  * @param clickNodeTId
@@ -1192,19 +1235,18 @@ function shoot() {
     // });
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/testBoot/export/pdf2",
-        // contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+        url: "http://localhost:8089/testBoot/export/pdf2",
+        contentType: 'application/x-www-form-urlencoded;charset=utf-8',
         data: {nodeInfo: zNodeStr},
         dataType: "text",
         success: function (data) {
-            debugger;
-            window.open("http://localhost:8080" + data);
+            window.open("http://localhost:8089" + data);
         },
         error: function (e) {
-            debugger;
             console.log(e.message);
         }
     });
+
     function fontCss(treeNode) {
         var aObj = $("#" + treeNode.tId + "_a");
         aObj.removeClass("copy").removeClass("cut");
@@ -1216,7 +1258,9 @@ function shoot() {
             }
         }
     }
+
     var curSrcNode, curType;
+
     function setCurSrcNode(treeNode) {
         var zTree = $.fn.zTree.getZTreeObj("treeDemo");
         if (curSrcNode) {
@@ -1232,6 +1276,7 @@ function shoot() {
         zTree.cancelSelectedNode();
         fontCss(curSrcNode);
     }
+
     function copy(e) {
         var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
             nodes = zTree.getSelectedNodes();
@@ -1242,6 +1287,7 @@ function shoot() {
         curType = "copy";
         setCurSrcNode(nodes[0]);
     }
+
     function cut(e) {
         var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
             nodes = zTree.getSelectedNodes();
@@ -1252,6 +1298,7 @@ function shoot() {
         curType = "cut";
         setCurSrcNode(nodes[0]);
     }
+
     function paste(e) {
         if (!curSrcNode) {
             alert("请先选择一个节点进行 复制 / 剪切");
@@ -1259,7 +1306,7 @@ function shoot() {
         }
         var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
             nodes = zTree.getSelectedNodes(),
-            targetNode = nodes.length>0? nodes[0]:null;
+            targetNode = nodes.length > 0 ? nodes[0] : null;
         if (curSrcNode === targetNode) {
             alert("不能移动，源节点 与 目标节点相同");
             return;
@@ -1279,6 +1326,7 @@ function shoot() {
         delete targetNode.isCur;
         zTree.selectNode(targetNode);
     }
+
     // $("#middle").media({width:450, height:350,autoplay: true,href:'http://localhost:8080/testBoot/export/pdf3'});
     // $.get("http://localhost:8080/testBoot/export/pdf",function (result) {
     //     window.open(result.split("#")[0])
