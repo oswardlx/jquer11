@@ -110,6 +110,11 @@
             width: 800px;
             overflow: auto;
         }
+        #inputJson {
+            height: 600px;
+            width: 800px;
+            overflow: auto;
+        }
     </style>
 
 </head>
@@ -117,8 +122,12 @@
 <body>
 <div class="btn-group" role="group" aria-label="...">
     <button type="button" class="btn btn-default" onclick="printNode()">输出</button>
-    <button type="button" class="btn btn-default" onclick="copy()">复制</button>
+    <button type="button" class="btn btn-default" onclick="copyNodeInfo()">复制</button>
     <button type="button" class="btn btn-default" onclick="shoot()">Right</button>
+    <button type="button" class="btn btn-default" onclick="loadJson()">加载</button>
+
+<!--    <button type="button" class="btn btn-default" onclick="resetTree()">恢复zTree</button>-->
+<!--    <li id="m_reset" onclick="resetTree();">恢复zTree</li>-->
 </div>
 <!--<div id="accordion">-->
 <!--    <h3>内容</h3>-->
@@ -128,17 +137,12 @@
             <div class=" col-md-2">
                 <ul id="treeDemo" class="ztree"></ul>
             </div>
-<!--            <div class="col-md-7" id = "middle">-->
-            <div class="col-md-7" id = "htmlPrint">
-<!--                <div id ="htmlPrint">-->
-<!--                </div>-->
-<!--                <pre id = "htmlPrint">-->
-
-<!--                </pre>-->
-
+            <div class="col-md-7" id = "htmlPrint" hidden>
             </div>
-
             <div id="properties" class="col-md-3">
+            </div>
+            <div id="input" class="col-md-12">
+                <textarea class="form-control" rows="10" id = "inputJson"></textarea>
             </div>
         </div>
     </div>
@@ -182,9 +186,9 @@
         <li id="m_addChunk" onclick="addTreeElement('Chunk');">增加块</li>
         <li id="m_addImage" onclick="addTreeElement('Image');">增加图片</li>
         <li id="m_del" onclick="removeTreeNode();">删除节点</li>
-        <li id="copy" >复制</li>
-        <li id="cut" >剪切</li>
-        <li id="paste" >粘贴</li>
+        <li id="copy" onclick="copyNode();">复制</li>
+        <li id="cut" onclick="cut();" >剪切</li>
+        <li id="paste"  onclick="pasteNode();">粘贴</li>
 <!--        <li id="m_check" onclick="checkTreeNode(true);">Check节点</li>-->
 <!--        <li id="m_unCheck" onclick="checkTreeNode(false);">unCheck节点</li>-->
 <!--        <li id="m_reset" onclick="resetTree();">恢复zTree</li>-->

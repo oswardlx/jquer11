@@ -40,7 +40,199 @@ var setting = {
     }
 };
 
-var zNodes = [
+var zNodes1 = [
+    {
+        "id":1,
+        "pId":null,
+        "name":"纸张与文档",
+        "ename":"Page",
+        "open":true,
+        "pageSize":"A4",
+        "pageRotate":"vertical",
+        "marginRight":"16",
+        "marginLeft":"16",
+        "marginTop":"16",
+        "marginBottom":"16",
+        "level":0,
+        "children":[
+            {
+                "id":11,
+                "pId":1,
+                "name":"表格",
+                "level":1,
+                "ename":"Table",
+                "open":true,
+                "colsRadioArr":[
+                    1
+                ],
+                "numCols":1,
+                "widthRadio":100,
+                "children":[
+                    {
+                        "id":111,
+                        "pId":11,
+                        "name":"单元格",
+                        "ename":"Cell",
+                        "open":true,
+                        "colSpan":1,
+                        "rowSpan":1,
+                        "level":2,
+                        "rotation":0,
+                        "paddingLeft":0,
+                        "paddingTop":0,
+                        "paddingRight":0,
+                        "paddingBottom":0,
+                        "borderWidthLeft":1,
+                        "borderWidthRight":1,
+                        "borderWidthTop":1,
+                        "borderWidthBottom":1,
+                        "horizontalAlignment":"1",
+                        "verticalAlignment":"5",
+                        "children":[
+                            {
+                                "id":1111,
+                                "pId":111,
+                                "name":"段落",
+                                "ename":"Paragraph",
+                                "level":3,
+                                "isParent":true,
+                                "open":true,
+                                "children":[
+                                    {
+                                        "id":11111,
+                                        "pId":1111,
+                                        "name":"块",
+                                        "level":4,
+                                        "text":"I AM HEAR",
+                                        "ename":"Chunk",
+                                        "isParent":false,
+                                        "tId":"treeDemo_5",
+                                        "parentTId":"treeDemo_4",
+                                        "open":false,
+                                        "zAsync":true,
+                                        "isFirstNode":true,
+                                        "isLastNode":true,
+                                        "isAjaxing":false,
+                                        "checked":false,
+                                        "checkedOld":false,
+                                        "nocheck":false,
+                                        "chkDisabled":false,
+                                        "halfCheck":false,
+                                        "check_Child_State":-1,
+                                        "check_Focus":false,
+                                        "isHover":false,
+                                        "editNameFlag":false,
+                                        "parameter":"{}",
+                                        "fontBase":"",
+                                        "fontSize":9,
+                                        "fontStyle":0
+                                    }
+                                ],
+                                "tId":"treeDemo_4",
+                                "parentTId":"treeDemo_3",
+                                "zAsync":true,
+                                "isFirstNode":true,
+                                "isLastNode":true,
+                                "isAjaxing":false,
+                                "checked":false,
+                                "checkedOld":false,
+                                "nocheck":false,
+                                "chkDisabled":false,
+                                "halfCheck":false,
+                                "check_Child_State":0,
+                                "check_Focus":false,
+                                "isHover":false,
+                                "editNameFlag":false
+                            }
+                        ],
+                        "tId":"treeDemo_3",
+                        "parentTId":"treeDemo_2",
+                        "isParent":true,
+                        "zAsync":true,
+                        "isFirstNode":true,
+                        "isLastNode":true,
+                        "isAjaxing":false,
+                        "checked":false,
+                        "checkedOld":false,
+                        "nocheck":false,
+                        "chkDisabled":false,
+                        "halfCheck":false,
+                        "check_Child_State":0,
+                        "check_Focus":false,
+                        "isHover":true,
+                        "editNameFlag":false,
+                        "cellHeight":15,
+                        "fontSize":null,
+                        "fontStyle":null
+                    }
+                ],
+                "tId":"treeDemo_2",
+                "parentTId":"treeDemo_1",
+                "isParent":true,
+                "zAsync":true,
+                "isFirstNode":true,
+                "isLastNode":true,
+                "isAjaxing":false,
+                "checked":false,
+                "checkedOld":false,
+                "nocheck":false,
+                "chkDisabled":false,
+                "halfCheck":false,
+                "check_Child_State":0,
+                "check_Focus":false,
+                "isHover":false,
+                "editNameFlag":false,
+                "colSpan":null,
+                "rowSpan":null,
+                "rotation":null,
+                "cellHeight":null,
+                "paddingLeft":null,
+                "paddingRight":null,
+                "paddingTop":null,
+                "paddingBottom":null,
+                "borderWidthLeft":null,
+                "borderWidthRight":null,
+                "borderWidthTop":null,
+                "borderWidthBottom":null,
+                "fontSize":null,
+                "fontStyle":null
+            }
+        ],
+        "tId":"treeDemo_1",
+        "parentTId":null,
+        "isParent":true,
+        "zAsync":true,
+        "isFirstNode":true,
+        "isLastNode":true,
+        "isAjaxing":false,
+        "checked":false,
+        "checkedOld":false,
+        "nocheck":false,
+        "chkDisabled":false,
+        "halfCheck":false,
+        "check_Child_State":0,
+        "check_Focus":false,
+        "isHover":false,
+        "editNameFlag":false,
+        "numCols":null,
+        "colsRadioArr":Array[0],
+        "widthRadio":null,
+        "colSpan":null,
+        "rowSpan":null,
+        "rotation":null,
+        "cellHeight":null,
+        "paddingLeft":null,
+        "paddingRight":null,
+        "paddingTop":null,
+        "paddingBottom":null,
+        "borderWidthLeft":null,
+        "borderWidthRight":null,
+        "borderWidthTop":null,
+        "borderWidthBottom":null,
+        "fontSize":null,
+        "fontStyle":null
+    }];
+var zNodes3 = [
     {
         id: 1,
         pId: 0,
@@ -107,6 +299,9 @@ var zNodes = [
     }
 
 ];
+
+var zNodes = zNodes1;
+var zNodesTemp = zNodes1;
 var log, className = "dark";
 
 function dblClickExpand(treeId, treeNode) {
@@ -1164,6 +1359,7 @@ function saveLastOperate(clickNodeTId) {
 
 function resetTree() {
     hideRMenu();
+    zNodes = zNodesTemp;
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 }
 
@@ -1184,9 +1380,14 @@ function setTrigger() {
  */
 function printNode() {
     saveLastOperate(clickNodeTId);
-    $("#htmlPrint").html(JSON.stringify(zNodes, null, '\t'));
+    $("#htmlPrint").html(JSON.stringify(zNodes[0]));
 }
 
+/**
+ * 格式化JSON
+ * @param msg
+ * @returns {string}
+ */
 function formatJson(msg) {
     var rep = "~";
     var jsonStr = JSON.stringify(msg, null, rep)
@@ -1215,7 +1416,10 @@ function formatJson(msg) {
     return jsonStr;
 }
 
-function copy() {
+/**
+ * 复制
+ */
+function copyNodeInfo() {
     var txt = $("#htmlPrint").text();
     var copy_obj = document.createElement('textarea');
     document.body.append(copy_obj);
@@ -1228,8 +1432,105 @@ function copy() {
     document.body.removeChild(copy_obj);
 }
 
+function fontCss(treeNode) {
+    var aObj = $("#" + treeNode.tId + "_a");
+    aObj.removeClass("copy").removeClass("cut");
+    if (treeNode === curSrcNode) {
+        if (curType == "copy") {
+            aObj.addClass(curType);
+        } else {
+            aObj.addClass(curType);
+        }
+    }
+}
+
+var curSrcNode, curType;
+
+function setCurSrcNode(treeNode) {
+    var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+    if (curSrcNode) {
+        delete curSrcNode.isCur;
+        var tmpNode = curSrcNode;
+        curSrcNode = null;
+        fontCss(tmpNode);
+    }
+    curSrcNode = treeNode;
+    if (!treeNode) return;
+
+    curSrcNode.isCur = true;
+    zTree.cancelSelectedNode();
+    fontCss(curSrcNode);
+}
+
+/**
+ * 复制
+ * @param e
+ */
+function copyNode(e) {
+    hideRMenu();
+    var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+        nodes = zTree.getSelectedNodes();
+    if (nodes.length == 0) {
+        alert("请先选择一个节点");
+        return;
+    }
+    curType = "copy";
+    setCurSrcNode(nodes[0]);
+}
+
+/**
+ * 剪切
+ * @param e
+ */
+function cut(e) {
+    hideRMenu();
+    var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+        nodes = zTree.getSelectedNodes();
+    if (nodes.length == 0) {
+        alert("请先选择一个节点");
+        return;
+    }
+    curType = "cut";
+    setCurSrcNode(nodes[0]);
+}
+
+/**
+ * 粘贴
+ * @param e
+ */
+function pasteNode(e) {
+    hideRMenu();
+    // if (!curSrcNode) {
+    //     alert("请先选择一个节点进行 复制 / 剪切");
+    //     return;
+    // }
+    var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+        nodes = zTree.getSelectedNodes(),
+        targetNode = nodes.length > 0 ? nodes[0] : null;
+    if (curSrcNode === targetNode) {
+        alert("不能移动，源节点 与 目标节点相同");
+        return;
+    } else if (curType === "cut" && ((!!targetNode && curSrcNode.parentTId === targetNode.tId) || (!targetNode && !curSrcNode.parentTId))) {
+        alert("不能移动，源节点 已经存在于 目标节点中");
+        return;
+    } else if (curType === "copy") {
+        targetNode = zTree.copyNode(targetNode, curSrcNode, "inner");
+    } else if (curType === "cut") {
+        targetNode = zTree.moveNode(targetNode, curSrcNode, "inner");
+        if (!targetNode) {
+            alert("剪切失败，源节点是目标节点的父节点");
+        }
+        targetNode = curSrcNode;
+    }
+    setCurSrcNode();
+    delete targetNode.isCur;
+    zTree.selectNode(targetNode);
+}
+
 function shoot() {
-    var zNodeStr = JSON.stringify(zNodes);
+    saveLastOperate(clickNodeTId);
+    $("#htmlPrint").html(JSON.stringify(zNodes[0], null, '\t'));
+    var zNodeStr = JSON.stringify(zNodes[0]);
     // $.post("http://localhost:8080/testBoot/export/pdf2", {nodeInfo: zNodeStr}, function (result) {
     //     window.open("http://" + result);
     // });
@@ -1246,99 +1547,33 @@ function shoot() {
             console.log(e.message);
         }
     });
-
-    function fontCss(treeNode) {
-        var aObj = $("#" + treeNode.tId + "_a");
-        aObj.removeClass("copy").removeClass("cut");
-        if (treeNode === curSrcNode) {
-            if (curType == "copy") {
-                aObj.addClass(curType);
-            } else {
-                aObj.addClass(curType);
-            }
-        }
-    }
-
-    var curSrcNode, curType;
-
-    function setCurSrcNode(treeNode) {
-        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-        if (curSrcNode) {
-            delete curSrcNode.isCur;
-            var tmpNode = curSrcNode;
-            curSrcNode = null;
-            fontCss(tmpNode);
-        }
-        curSrcNode = treeNode;
-        if (!treeNode) return;
-
-        curSrcNode.isCur = true;
-        zTree.cancelSelectedNode();
-        fontCss(curSrcNode);
-    }
-
-    function copy(e) {
-        var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-            nodes = zTree.getSelectedNodes();
-        if (nodes.length == 0) {
-            alert("请先选择一个节点");
-            return;
-        }
-        curType = "copy";
-        setCurSrcNode(nodes[0]);
-    }
-
-    function cut(e) {
-        var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-            nodes = zTree.getSelectedNodes();
-        if (nodes.length == 0) {
-            alert("请先选择一个节点");
-            return;
-        }
-        curType = "cut";
-        setCurSrcNode(nodes[0]);
-    }
-
-    function paste(e) {
-        if (!curSrcNode) {
-            alert("请先选择一个节点进行 复制 / 剪切");
-            return;
-        }
-        var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-            nodes = zTree.getSelectedNodes(),
-            targetNode = nodes.length > 0 ? nodes[0] : null;
-        if (curSrcNode === targetNode) {
-            alert("不能移动，源节点 与 目标节点相同");
-            return;
-        } else if (curType === "cut" && ((!!targetNode && curSrcNode.parentTId === targetNode.tId) || (!targetNode && !curSrcNode.parentTId))) {
-            alert("不能移动，源节点 已经存在于 目标节点中");
-            return;
-        } else if (curType === "copy") {
-            targetNode = zTree.copyNode(targetNode, curSrcNode, "inner");
-        } else if (curType === "cut") {
-            targetNode = zTree.moveNode(targetNode, curSrcNode, "inner");
-            if (!targetNode) {
-                alert("剪切失败，源节点是目标节点的父节点");
-            }
-            targetNode = curSrcNode;
-        }
-        setCurSrcNode();
-        delete targetNode.isCur;
-        zTree.selectNode(targetNode);
-    }
-
-    // $("#middle").media({width:450, height:350,autoplay: true,href:'http://localhost:8080/testBoot/export/pdf3'});
-    // $.get("http://localhost:8080/testBoot/export/pdf",function (result) {
-    //     window.open(result.split("#")[0])
-    // })
-    // location.href = "http://localhost:8080/testBoot/export/pdf";
 }
-
-// $(document).ready(function(){
-//     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-//     $("#callbackTrigger").bind("change", {}, setTrigger);
-// });
+/**
+ * 从文件加载初始化数据
+ */
+function initfromLocalJsonFile(){
+    $.ajax({
+        url: '../data/init.json',
+        async: false,
+        success: function (data) {
+            zNodes = data[0];
+        }
+    });
+}
+function loadJson(){
+    debugger;
+    var inputJson = JSON.parse($("#inputJson").val());
+    var jsonArr = [inputJson];
+    zNodes = jsonArr;
+    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    zTree = $.fn.zTree.getZTreeObj("treeDemo");
+    zNodes = zTree.transformToArray(zTree.getNodes());
+}
+/**
+ * 初始化
+ */
 $(document).ready(function () {
+    initfromLocalJsonFile();
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
     zTree = $.fn.zTree.getZTreeObj("treeDemo");
     // zTree.addNodes(null, {id: "demo", pId: 0, isParent: false, name: "图片",ename:"Image"});
