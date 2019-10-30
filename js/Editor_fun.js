@@ -1553,7 +1553,7 @@ function shoot() {
  */
 function initfromLocalJsonFile(){
     $.ajax({
-        url: '../data/init.json',
+        url: '../data/demo.json',
         async: false,
         success: function (data) {
             zNodes = data[0];
