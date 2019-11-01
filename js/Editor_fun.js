@@ -1527,10 +1527,12 @@ function pasteNode(e) {
     zTree.selectNode(targetNode);
 }
 
-function shoot() {
+function shoot(element) {
     saveLastOperate(clickNodeTId);
     $("#htmlPrint").html(JSON.stringify(zNodes[0], null, '\t'));
     var zNodeStr = JSON.stringify(zNodes[0]);
+    var shootType = element.getAttribute("value");
+    console.log(shootType);
     // $.post("http://localhost:8080/testBoot/export/pdf2", {nodeInfo: zNodeStr}, function (result) {
     //     window.open("http://" + result);
     // });
@@ -1541,7 +1543,11 @@ function shoot() {
         data: {nodeInfo: zNodeStr},
         dataType: "text",
         success: function (data) {
-            window.open("http://localhost:8089" + data);
+            if("preview" == shootType) {
+                $("#printFrame").attr('src', "http://localhost:8089" + data)
+            }else if ("downLoad" == shootType){
+                window.open("http://localhost:8089" + data);
+            }
         },
         error: function (e) {
             console.log(e.message);
@@ -1553,7 +1559,7 @@ function shoot() {
  */
 function initfromLocalJsonFile(){
     $.ajax({
-        url: '../data/demo.json',
+        url: '../data/demo4.json',
         async: false,
         success: function (data) {
             zNodes = data[0];
