@@ -1559,7 +1559,7 @@ function shoot(element) {
  */
 function initfromLocalJsonFile(){
     $.ajax({
-        url: '../data/demo4.json',
+        url: '../data/demo5.json',
         async: false,
         success: function (data) {
             zNodes = data[0];
@@ -1567,9 +1567,8 @@ function initfromLocalJsonFile(){
     });
 }
 function loadJson(){
-    debugger;
     var inputJson = JSON.parse($("#inputJson").val());
-    var jsonArr = [inputJson];
+    var jsonArr = inputJson;
     zNodes = jsonArr;
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
     zTree = $.fn.zTree.getZTreeObj("treeDemo");
