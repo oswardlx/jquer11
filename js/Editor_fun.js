@@ -1108,7 +1108,7 @@ function getSettingHtml(nodeName, tNode) {
             '                            <div class="col-md-12 input-group ">\n' +
             '                                <span class="input-group-addon">列数</span>\n' +
             '                                <!--                                <label for="spinnerNumCols" class="ui-controlgroup-label">列数</label>-->\n' +
-            '                                <input id="numCols" class="form-control" onblur="addCol()">\n' +
+            '                                <input id="numCols" class="form-control" oninput="addCol()">\n' +
             '                                <span class="input-group-addon">列</span>\n' +
             '                            </div>\n' +
             '                            <div class="input-group">\n' +
