@@ -304,6 +304,12 @@ var zNodes = zNodes1;
 var zNodesTemp = zNodes1;
 var log, className = "dark";
 
+/**
+ * 双击展开
+ * @param treeId
+ * @param treeNode
+ * @returns {boolean}
+ */
 function dblClickExpand(treeId, treeNode) {
     return treeNode.level > 0;
 }
@@ -312,16 +318,35 @@ function beforeDrag(treeId, treeNodes) {
     return false;
 }
 
+/**
+ * 删除前
+ * @param treeId
+ * @param treeNode
+ * @returns {boolean}
+ */
 function beforeRemove(treeId, treeNode) {
     className = (className === "dark" ? "" : "dark");
     showLog("[ " + getTime() + " beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
     return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
 }
 
+/**
+ * 删除时
+ * @param e
+ * @param treeId
+ * @param treeNode
+ */
 function onRemove(e, treeId, treeNode) {
     showLog("[ " + getTime() + " onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
 }
 
+/**
+ * 重命名前
+ * @param treeId
+ * @param treeNode
+ * @param newName
+ * @returns {boolean}
+ */
 function beforeRename(treeId, treeNode, newName) {
     if (newName.length == 0) {
         alert("节点名称不能为空.");
@@ -637,7 +662,7 @@ function cellAction(tNode) {
     if (!rotation)
         rotation = 0;
     if (!cellHeight)
-        cellHeight = 15;
+        cellHeight = 0;
     if (!paddingBottom)
         paddingBottom = 0;
     if (!paddingLeft)
@@ -1559,7 +1584,7 @@ function shoot(element) {
  */
 function initfromLocalJsonFile(){
     $.ajax({
-        url: '../data/demo5.json',
+        url: '../data/demo7.json',
         async: false,
         success: function (data) {
             zNodes = data[0];
@@ -1567,13 +1592,26 @@ function initfromLocalJsonFile(){
     });
 }
 function loadJson(){
-    var inputJson = JSON.parse($("#inputJson").val());
-    var jsonArr = inputJson;
-    zNodes = jsonArr;
+    var dataName = $("#dataName").val();
+    var inputJson;
+    if(!dataName) {
+        inputJson = JSON.parse($("#inputJson").val());
+        // var jsonArr = inputJson;
+    }else {
+        $.ajax({
+            url: '../data/'+dataName+'.json',
+            async: false,
+            success: function (data) {
+                inputJson = data;
+            }
+        });
+    }
+    zNodes = inputJson;
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
     zTree = $.fn.zTree.getZTreeObj("treeDemo");
     zNodes = zTree.transformToArray(zTree.getNodes());
 }
+
 /**
  * 初始化
  */
@@ -1595,8 +1633,5 @@ $(document).ready(function () {
     $("#cut").bind("click", cut);
     $("#paste").bind("click", paste);
 
-    // $("#numCols").blur(function () {
-    //
-    // });
 });
 //-->
