@@ -1227,6 +1227,9 @@ function addTreeElement(element) {
         case "Cell":
             e = {data: {isParent: true, name: "单元格", ename: "Cell"}};
             break;
+        case "Loop":
+            e = {data: {isParent: true, name: "循环体", ename: "Loop"}};
+            break;
     }
     add(e);
 }
