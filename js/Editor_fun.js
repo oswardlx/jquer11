@@ -573,36 +573,113 @@ function onExpand(event, treeId, treeNode) {
 
 function showProperties(ename, tNode) {
     var pageSettings;
+    pageSettings = getSettingHtml(ename, tNode)
+    $("#properties").html(pageSettings);
     switch (ename) {
         case "Table":
-            pageSettings = getSettingHtml(ename, tNode)
-            $("#properties").html(pageSettings);
             tableAction(tNode);
             break;
         case "Cell":
-            pageSettings = getSettingHtml(ename, tNode)
-            $("#properties").html(pageSettings);
             cellAction(tNode);
             break;
         case "Image":
-            showLog("Image");
-            $("#properties").text('Image');
             break;
         case "Paragraph":
-            pageSettings = getSettingHtml(ename, tNode)
-            $("#properties").html(pageSettings);
             break;
         case "Page":
-            pageSettings = getSettingHtml(ename, tNode)
-            $("#properties").html(pageSettings);
             pageAction(tNode);
             break;
         case "Chunk":
-            pageSettings = getSettingHtml(ename, tNode);
-            $("#properties").html(pageSettings);
             chunkAction(tNode);
             break;
+        case "List":
+            listAction(tNode);
+            break;
+        case "Column":
+            columnAction(tNode);
+            break;
+        default:
 
+    }
+}
+
+/**
+ * 列数据赋值
+ * @param tNode
+ */
+function columnAction(tNode) {
+    var paddingLeft = parseInt(tNode.paddingLeft);
+    var paddingRight = parseInt(tNode.paddingRight);
+    var paddingTop = parseInt(tNode.paddingTop);
+    var paddingBottom = parseInt(tNode.paddingBottom);
+    var horizontalAlignment = tNode.horizontalAlignment;
+    var verticalAlignment = tNode.verticalAlignment;
+    var text = tNode.text;
+    var parameter = tNode.parameter;
+    var fontBase = tNode.fontBase;
+    var fontSize = parseFloat(tNode.fontSize);
+    var fontStyle = parseInt(tNode.fontStyle);
+    if (!fontBase)
+        fontBase = "";
+    if (!fontSize)
+        fontSize = "9";
+    if (!fontStyle)
+        fontStyle = "0";
+    if (!text)
+        text = "";
+    if (!parameter)
+        parameter = "{}";
+    if (!paddingBottom)
+        paddingBottom = 0;
+    if (!paddingLeft)
+        paddingLeft = 0;
+    if (!paddingTop)
+        paddingTop = 0;
+    if (!paddingRight)
+        paddingRight = 0;
+    if (!horizontalAlignment)
+        horizontalAlignment = "hMiddle";
+    if (!verticalAlignment)
+        verticalAlignment = "vMiddle";
+    $('#text').val(text);
+    $('#parameter').val(parameter);
+    $('#paddingLeft').val(paddingLeft);
+    $('#paddingRight').val(paddingRight);
+    $('#paddingTop').val(paddingTop);
+    $('#paddingBottom').val(paddingBottom);
+    $('#fontBase').val(fontBase);
+    $('#fontSize').val(fontSize);
+    $('#fontStyle').val(fontStyle);
+    $("input:radio[value='" + verticalAlignment + "']").prop('checked', 'true');
+    $("input:radio[value='" + horizontalAlignment + "']").prop('checked', 'true');
+}
+
+/**
+ * 加载外List后的活动赋值
+ */
+function listAction(tNode) {
+    var numCols = tNode.numCols;
+    var colsArr = tNode.colsRadioArr;
+    var numRows = tNode.numRows;
+    var repeat = tNode.repeat;
+    if (!numCols) {
+        numCols = 0;
+    }
+    if (!numRows) {
+        numRows = 0;
+    }
+    if (!repeat) {
+        repeat = 0;
+    }
+    if (!colsArr) {
+        colsArr = [];
+    }
+    $("#numCols").val(numCols);
+    $("#numRows").val(numRows);
+    $("#repeat").val(repeat);
+    addCol();
+    for (var i = 0; i < numCols; i++) {
+        $("#col" + (i + 1)).val(colsArr[i]);
     }
 }
 
@@ -631,8 +708,6 @@ function chunkAction(tNode) {
     $('#fontBase').val(fontBase);
     $('#fontSize').val(fontSize);
     $('#fontStyle').val(fontStyle);
-
-
 }
 
 /**
@@ -654,7 +729,6 @@ function cellAction(tNode) {
     var borderWidthBottom = parseFloat(tNode.borderWidthBottom);
     var horizontalAlignment = tNode.horizontalAlignment;
     var verticalAlignment = tNode.verticalAlignment;
-    var parameter = tNode.parameter;
     if (!colSpan)
         colSpan = 1;
     if (!rowSpan)
@@ -679,8 +753,6 @@ function cellAction(tNode) {
         borderWidthTop = 0;
     if (!borderWidthBottom)
         borderWidthBottom = 0;
-    if (!parameter)
-        parameter = "{}";
     if (!horizontalAlignment)
         horizontalAlignment = "hMiddle";
     if (!verticalAlignment)
@@ -697,7 +769,6 @@ function cellAction(tNode) {
     $('#borderWidthRight').val(borderWidthRight);
     $('#borderWidthTop').val(borderWidthTop);
     $('#borderWidthBottom').val(borderWidthBottom);
-    $('#parameter').val(parameter);
     $("input:radio[value='" + verticalAlignment + "']").prop('checked', 'true');
     $("input:radio[value='" + horizontalAlignment + "']").prop('checked', 'true');
 }
@@ -788,8 +859,54 @@ function getSettingHtml(nodeName, tNode) {
         case "Chunk":
             html = getChunkHtml(tId);
             break;
+        case "List":
+            html = getListHtml(tId);
+            break;
+        case "Column":
+            html = getColumnHtml(tId);
+            break;
+        default:
     }
 
+    function getListHtml(tId) {
+        var result = '<div id="pageProperties" class="row">\n' +
+            '                <div class="col-md-12">\n' +
+            '                    <div class="panel panel-default">\n' +
+            '                        <div class="panel-heading"><b>列表设置</b></div>\n' +
+            '                        <div class="panel-body">\n' +
+            '                            <div class="input-group">\n' +
+            '                                <span class="input-group-addon">行数</span>\n' +
+            '                                <input id = "numRows"  class="form-control">\n' +
+            '                            </div>\n' +
+            '                            <div class="input-group">\n' +
+            '                                <span class="input-group-addon">重复次数</span>\n' +
+            '                                <input id = "repeat"  class="form-control">\n' +
+            '                            </div>\n' +
+            '                            <div class="col-md-12 input-group ">\n' +
+            '                                <span class="input-group-addon">列数</span>\n' +
+            '                                <input id="numCols" class="form-control" oninput="addCol()">\n' +
+            '                                <span class="input-group-addon">列</span>\n' +
+            '                            </div>\n' +
+            '                            <table class="table" id="cols">\n' +
+            '                                <thead>\n' +
+            // '                                <tr>\n' +
+            // '                                    <th><b>每列相对宽度</b></th>\n' +
+            // '                                </tr>\n' +
+            '                                </thead>\n' +
+            '                                <tbody>\n' +
+            // '                                   <div class="input-group">\n' +
+            // '                                           <label for="spinnerCol00" class="input-group-addon">第1列</label>\n' +
+            // '                                           <input id="spinnerCol00" class="form-control"> \n' +
+            // '                                   </div>' +
+            '                                </tbody>\n' +
+            '                            </table>\n' +
+            '                        </div>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '        </div>';
+
+        return result;
+    }
     function getChunkHtml(tId) {
         var result = '<div id="pageProperties" class="row">\n' +
             '            <div class="col-md-12 ">\n' +
@@ -825,7 +942,6 @@ function getSettingHtml(nodeName, tNode) {
             '                                <input id="fontStyle" class="form-control" value="">\n' +
             '                                <!--                                <span class="input-group-addon">列</span>-->\n' +
             '                            </div>\n' +
-            '\n' +
             '                        </div>\n' +
             '                    </div>\n' +
             '                </div>\n' +
@@ -1119,6 +1235,190 @@ function getSettingHtml(nodeName, tNode) {
         return result;
     }
 
+
+    /**
+     * 获取列html
+     * @param tId
+     * @returns {string}
+     */
+    function getColumnHtml(tId) {
+        var result = '<div id="pageProperties" class="row">\n' +
+            '            <div class="col-md-12">\n' +
+            '                <div class="col-md-12">\n' +
+            '                    <div class="panel panel-default">\n' +
+            '                        <div class="panel-heading"><b>列设置</b></div>\n' +
+            '                        <div class="panel-body">\n' +
+            '                            <div class="col-md-12 input-group">\n' +
+            '                                <span class="input-group-addon">文本内容</span>\n' +
+            '                                <input id="text" class="form-control" value="">\n' +
+            '<!--                                <span class="input-group-addon">列</span>-->\n' +
+            '                            </div>\n' +
+            '                            <div class="col-md-12 input-group">\n' +
+            '                                <span class="input-group-addon">参数内容</span>\n' +
+            '                                <input id="parameter" class="form-control" value="">\n' +
+            '<!--                                <span class="input-group-addon">行</span>-->\n' +
+            '                            </div>\n' +
+            '                            <div class="col-md-12 input-group">\n' +
+            '                                <span class="input-group-addon">字体</span>\n' +
+            '                                <input id="fontBase" class="form-control" value="">\n' +
+            '                            </div>\n' +
+            '                            <div class="col-md-12 input-group">\n' +
+            '                                <span class="input-group-addon">字号</span>\n' +
+            '                                <input id="fontSize" class="form-control" value="">\n' +
+            '                            </div>\n' +
+            '                            <div class="col-md-12 input-group">\n' +
+            '                                <span class="input-group-addon">加粗，斜体</span>\n' +
+            '                                <input id="fontStyle" class="form-control" value="">\n' +
+            '                                <!--                                <span class="input-group-addon">列</span>-->\n' +
+            '                            </div>\n' +
+            '                        </div>\n' +
+            '                        <div class="panel-body">\n' +
+            '                            <table class="table" id="paddings">\n' +
+            '                                <thead>\n' +
+            '                                <tr>\n' +
+            '                                    <th><b>内边距</b></th>\n' +
+            '                                </tr>\n' +
+            '                                </thead>\n' +
+            '                                <tbody>\n' +
+            '                                <tr>\n' +
+            '                                    <td>\n' +
+            '                                        <label for="paddingLeft" class="ui-controlgroup-label">左边距</label>\n' +
+            '                                        <input id="paddingLeft" value="16">\n' +
+            '                                    </td>\n' +
+            '                                </tr>\n' +
+            '                                <tr>\n' +
+            '                                    <td>\n' +
+            '                                        <label for="paddingRight" class="ui-controlgroup-label">右边距</label>\n' +
+            '                                        <input id="paddingRight" value="16">\n' +
+            '                                    </td>\n' +
+            '                                </tr>\n' +
+            '                                <tr>\n' +
+            '                                    <td>\n' +
+            '                                        <label for="paddingTop" class="ui-controlgroup-label">上边距</label>\n' +
+            '                                        <input id="paddingTop" value="16">\n' +
+            '                                    </td>\n' +
+            '                                </tr>\n' +
+            '                                <tr>\n' +
+            '                                    <td>\n' +
+            '                                        <label for="paddingBottom" class="ui-controlgroup-label">下边距</label>\n' +
+            '                                        <input id="paddingBottom" value="16">\n' +
+            '                                    </td>\n' +
+            '                                </tr>\n' +
+            '                                </tbody>\n' +
+            '                            </table>\n' +
+            '                            <table class="table" id="alignment">\n' +
+            '                                <thead>\n' +
+            '                                <tr>\n' +
+            '                                    <th><b>对齐方式</b></th>\n' +
+            '                                </tr>\n' +
+            '                                </thead>\n' +
+            '                                <tbody>\n' +
+            '                                <tr>\n' +
+            '                                    <td>\n' +
+            '                                        <div class="col-md-12">\n' +
+            '                                            <div class="col-md-4">\n' +
+            '                                                <div class="radio ">\n' +
+            '                                                    <label>\n' +
+            '                                                        <input type="radio"\n' +
+            '                                                               name="optionsRadioHori"\n' +
+            '                                                               id="alignLeft"\n' +
+            '                                                               value="0"\n' +
+            '                                                               checked>\n' +
+            '                                                        左\n' +
+            '                                                    </label>\n' +
+            '                                                </div>\n' +
+            '                                            </div>\n' +
+            '                                            <div class="col-md-4">\n' +
+            '                                                <div class="radio">\n' +
+            '                                                    <div>\n' +
+            '\n' +
+            '                                                        <label>\n' +
+            '                                                            <input type="radio"\n' +
+            '                                                                   name="optionsRadioHori"\n' +
+            '                                                                   id="alignRight"\n' +
+            '                                                                   value="1"\n' +
+            '                                                                   >\n' +
+            '                                                            中\n' +
+            '                                                        </label>\n' +
+            '                                                    </div>\n' +
+            '                                                </div>\n' +
+            '                                            </div>\n' +
+            '                                            <div class="col-md-4">\n' +
+            '                                                <div class="radio">\n' +
+            '                                                    <div>\n' +
+            '\n' +
+            '                                                        <label>\n' +
+            '                                                            <input type="radio"\n' +
+            '                                                                   name="optionsRadioHori"\n' +
+            '                                                                   id="alignRight"\n' +
+            '                                                                   value="2"\n' +
+            '                                                                   >\n' +
+            '                                                            右\n' +
+            '                                                        </label>\n' +
+            '                                                    </div>\n' +
+            '                                                </div>\n' +
+            '                                            </div>\n' +
+            '                                        </div>\n' +
+            '                                    </td>\n' +
+            '                                </tr>\n' +
+            '                                <tr>\n' +
+            '                                    <td>\n' +
+            '                                        <div class="col-md-12">\n' +
+            '                                            <div class="col-md-4">\n' +
+            '                                                <div class="radio ">\n' +
+            '                                                    <label>\n' +
+            '                                                        <input type="radio"\n' +
+            '                                                               name="optionsRadioVer"\n' +
+            '                                                               id="alignTop"\n' +
+            '                                                               value="4"\n' +
+            '                                                               checked>\n' +
+            '                                                        上\n' +
+            '                                                    </label>\n' +
+            '                                                </div>\n' +
+            '                                            </div>\n' +
+            '                                            <div class="col-md-4">\n' +
+            '                                                <div class="radio">\n' +
+            '                                                    <div>\n' +
+            '\n' +
+            '                                                        <label>\n' +
+            '                                                            <input type="radio"\n' +
+            '                                                                   name="optionsRadioVer"\n' +
+            '                                                                   id="alignmiddle"\n' +
+            '                                                                   value="5"\n' +
+            '                                                                   checked>\n' +
+            '                                                            中\n' +
+            '                                                        </label>\n' +
+            '                                                    </div>\n' +
+            '                                                </div>\n' +
+            '                                            </div>\n' +
+            '                                            <div class="col-md-4">\n' +
+            '                                                <div class="radio">\n' +
+            '                                                    <div>\n' +
+            '\n' +
+            '                                                        <label>\n' +
+            '                                                            <input type="radio"\n' +
+            '                                                                   name="optionsRadioVer"\n' +
+            '                                                                   id="alignBottom"\n' +
+            '                                                                   value="6"\n' +
+            '                                                                   checked>\n' +
+            '                                                            下\n' +
+            '                                                        </label>\n' +
+            '                                                    </div>\n' +
+            '                                                </div>\n' +
+            '                                            </div>\n' +
+            '                                        </div>\n' +
+            '                                    </td>\n' +
+            '                                </tr>\n' +
+            '                                </tbody>\n' +
+            '                            </table>\n' +
+            '\n' +
+            '                        </div>\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>\n' +
+            '        </div>';
+        return result;
+    }
     function getParagraphHtml(tId) {
         var result = 'Paragraph';
         return result;
@@ -1229,6 +1529,12 @@ function addTreeElement(element) {
             break;
         case "Loop":
             e = {data: {isParent: true, name: "循环体", ename: "Loop"}};
+            break;
+        case "List":
+            e = {data: {isParent: true, name: "列表", ename: "List"}};
+            break;
+        case "Column":
+            e = {data: {isParent: false, name: "列", ename: "Column"}};
             break;
     }
     add(e);
@@ -1350,6 +1656,39 @@ function savePropertiesOfCell(node) {
 }
 
 /**
+ * 给table赋值设置属性
+ * @param node
+ */
+function savePropertiesOfColumn(node) {
+    node.paddingLeft = parseInt($('#paddingLeft').val());
+    node.paddingRight = parseInt($('#paddingRight').val());
+    node.paddingTop = parseInt($('#paddingTop').val());
+    node.paddingBottom = parseInt($('#paddingBottom').val());
+    node.fontBase = $('#fontBase').val();
+    node.fontSize = parseInt($('#fontSize').val());
+    node.fontStyle = parseInt($('#fontStyle').val());
+    node.parameter = $('#parameter').val();
+    node.text = $('#text').val();
+    node.horizontalAlignment = $('input[name="optionsRadioHori"]:checked').val();
+    node.verticalAlignment = $('input[name="optionsRadioVer"]:checked').val();
+}
+/**
+ * 给table赋值设置属性
+ * @param node
+ */
+function savePropertiesOfList(node) {
+    node.numCols = parseInt($('#numCols').val());
+    node.numRows = parseInt($('#numRows').val());
+    node.repeat = parseInt($('#repeat').val());
+    var colsArr = $("#cols>tbody input");
+    var cols = [];
+    for (var i = 0; i < colsArr.length; i++) {
+        cols[cols.length] = parseInt(colsArr[i].value);
+    }
+    node.colsRadioArr = cols;
+}
+
+/**
  * 点击打印前
  * @param treeId
  * @param treeNode
@@ -1375,12 +1714,23 @@ function saveLastOperate(clickNodeTId) {
         switch (nodeEname) {
             case "Page":
                 savePropertiesOfPage(node);
+                break;
             case "Table":
                 savePropertiesOfTable(node);
+                break;
             case "Cell":
                 savePropertiesOfCell(node);
+                break;
             case "Chunk":
                 savePropertiesOfChunk(node);
+                break;
+            case "List":
+                savePropertiesOfList(node);
+                break;
+            case "Column":
+                savePropertiesOfColumn(node);
+                break;
+            default:
         }
     }
 }
@@ -1448,7 +1798,7 @@ function formatJson(msg) {
  * 复制
  */
 function copyNodeInfo() {
-    var txt = $("#htmlPrint").text();
+    var txt = "["+$("#htmlPrint").text()+"]";
     var copy_obj = document.createElement('textarea');
     document.body.append(copy_obj);
     copy_obj.style.position = 'absolute';
