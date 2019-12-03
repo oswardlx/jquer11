@@ -615,6 +615,7 @@ function columnAction(tNode) {
     var horizontalAlignment = tNode.horizontalAlignment;
     var verticalAlignment = tNode.verticalAlignment;
     var text = tNode.text;
+    var headText = tNode.headText;
     var parameter = tNode.parameter;
     var fontBase = tNode.fontBase;
     var fontSize = parseFloat(tNode.fontSize);
@@ -625,6 +626,8 @@ function columnAction(tNode) {
         fontSize = "9";
     if (!fontStyle)
         fontStyle = "0";
+    if (!headText)
+        headText = "";
     if (!text)
         text = "";
     if (!parameter)
@@ -642,6 +645,7 @@ function columnAction(tNode) {
     if (!verticalAlignment)
         verticalAlignment = "vMiddle";
     $('#text').val(text);
+    $('#headText').val(headText);
     $('#parameter').val(parameter);
     $('#paddingLeft').val(paddingLeft);
     $('#paddingRight').val(paddingRight);
@@ -662,6 +666,7 @@ function listAction(tNode) {
     var colsArr = tNode.colsRadioArr;
     var numRows = tNode.numRows;
     var repeat = tNode.repeat;
+    var paged = tNode.paged;
     if (!numCols) {
         numCols = 0;
     }
@@ -671,12 +676,16 @@ function listAction(tNode) {
     if (!repeat) {
         repeat = 0;
     }
+    if (!paged) {
+        paged = 0;
+    }
     if (!colsArr) {
         colsArr = [];
     }
     $("#numCols").val(numCols);
     $("#numRows").val(numRows);
     $("#repeat").val(repeat);
+    $("#paged").val(paged);
     addCol();
     for (var i = 0; i < numCols; i++) {
         $("#col" + (i + 1)).val(colsArr[i]);
@@ -881,6 +890,10 @@ function getSettingHtml(nodeName, tNode) {
             '                            <div class="input-group">\n' +
             '                                <span class="input-group-addon">重复次数</span>\n' +
             '                                <input id = "repeat"  class="form-control">\n' +
+            '                            </div>\n' +
+            '                            <div class="input-group">\n' +
+            '                                <span class="input-group-addon">是否分页</span>\n' +
+            '                                <input id = "paged"  class="form-control">\n' +
             '                            </div>\n' +
             '                            <div class="col-md-12 input-group ">\n' +
             '                                <span class="input-group-addon">列数</span>\n' +
@@ -1251,6 +1264,11 @@ function getSettingHtml(nodeName, tNode) {
             '                            <div class="col-md-12 input-group">\n' +
             '                                <span class="input-group-addon">文本内容</span>\n' +
             '                                <input id="text" class="form-control" value="">\n' +
+            '<!--                                <span class="input-group-addon">列</span>-->\n' +
+            '                            </div>\n' +
+            '                            <div class="col-md-12 input-group">\n' +
+            '                                <span class="input-group-addon">列头内容</span>\n' +
+            '                                <input id="headText" class="form-control" value="">\n' +
             '<!--                                <span class="input-group-addon">列</span>-->\n' +
             '                            </div>\n' +
             '                            <div class="col-md-12 input-group">\n' +
@@ -1656,7 +1674,7 @@ function savePropertiesOfCell(node) {
 }
 
 /**
- * 给table赋值设置属性
+ * 给Column赋值设置属性
  * @param node
  */
 function savePropertiesOfColumn(node) {
@@ -1669,6 +1687,7 @@ function savePropertiesOfColumn(node) {
     node.fontStyle = parseInt($('#fontStyle').val());
     node.parameter = $('#parameter').val();
     node.text = $('#text').val();
+    node.headText = $('#headText').val();
     node.horizontalAlignment = $('input[name="optionsRadioHori"]:checked').val();
     node.verticalAlignment = $('input[name="optionsRadioVer"]:checked').val();
 }
@@ -1680,6 +1699,7 @@ function savePropertiesOfList(node) {
     node.numCols = parseInt($('#numCols').val());
     node.numRows = parseInt($('#numRows').val());
     node.repeat = parseInt($('#repeat').val());
+    node.paged = parseInt($('#paged').val());
     var colsArr = $("#cols>tbody input");
     var cols = [];
     for (var i = 0; i < colsArr.length; i++) {
