@@ -608,52 +608,56 @@ function showProperties(ename, tNode) {
  * @param tNode
  */
 function columnAction(tNode) {
-    var paddingLeft = parseInt(tNode.paddingLeft);
-    var paddingRight = parseInt(tNode.paddingRight);
-    var paddingTop = parseInt(tNode.paddingTop);
-    var paddingBottom = parseInt(tNode.paddingBottom);
+    // var paddingLeft = parseInt(tNode.paddingLeft);
+    // var paddingRight = parseInt(tNode.paddingRight);
+    // var paddingTop = parseInt(tNode.paddingTop);
+    // var paddingBottom = parseInt(tNode.paddingBottom);
     var horizontalAlignment = tNode.horizontalAlignment;
     var verticalAlignment = tNode.verticalAlignment;
     var text = tNode.text;
-    var headText = tNode.headText;
+    // var headText = tNode.headText;
     var parameter = tNode.parameter;
-    var fontBase = tNode.fontBase;
+    var isAdaptive = tNode.isAdaptive;
+    // var fontBase = tNode.fontBase;
     var fontSize = parseFloat(tNode.fontSize);
-    var fontStyle = parseInt(tNode.fontStyle);
-    if (!fontBase)
-        fontBase = "";
+    // var fontStyle = parseInt(tNode.fontStyle);
+    // if (!fontBase)
+    //     fontBase = "";
     if (!fontSize)
         fontSize = "9";
-    if (!fontStyle)
-        fontStyle = "0";
-    if (!headText)
-        headText = "";
+    // if (!fontStyle)
+    //     fontStyle = "0";
+    // if (!headText)
+    //     headText = "";
     if (!text)
         text = "";
     if (!parameter)
         parameter = "{}";
-    if (!paddingBottom)
-        paddingBottom = 0;
-    if (!paddingLeft)
-        paddingLeft = 0;
-    if (!paddingTop)
-        paddingTop = 0;
-    if (!paddingRight)
-        paddingRight = 0;
+    if (!isAdaptive)
+        isAdaptive = false;
+    // if (!paddingBottom)
+    //     paddingBottom = 0;
+    // if (!paddingLeft)
+    //     paddingLeft = 0;
+    // if (!paddingTop)
+    //     paddingTop = 0;
+    // if (!paddingRight)
+    //     paddingRight = 0;
     if (!horizontalAlignment)
         horizontalAlignment = "hMiddle";
     if (!verticalAlignment)
         verticalAlignment = "vMiddle";
     $('#text').val(text);
-    $('#headText').val(headText);
+    // $('#headText').val(headText);
     $('#parameter').val(parameter);
-    $('#paddingLeft').val(paddingLeft);
-    $('#paddingRight').val(paddingRight);
-    $('#paddingTop').val(paddingTop);
-    $('#paddingBottom').val(paddingBottom);
-    $('#fontBase').val(fontBase);
+    // $('#paddingLeft').val(paddingLeft);
+    // $('#paddingRight').val(paddingRight);
+    // $('#paddingTop').val(paddingTop);
+    // $('#paddingBottom').val(paddingBottom);
+    // $('#fontBase').val(fontBase);
     $('#fontSize').val(fontSize);
-    $('#fontStyle').val(fontStyle);
+    $('#isAdaptive').val(isAdaptive);
+    // $('#fontStyle').val(fontStyle);
     $("input:radio[value='" + verticalAlignment + "']").prop('checked', 'true');
     $("input:radio[value='" + horizontalAlignment + "']").prop('checked', 'true');
 }
@@ -664,9 +668,11 @@ function columnAction(tNode) {
 function listAction(tNode) {
     var numCols = tNode.numCols;
     var colsArr = tNode.colsRadioArr;
+    var headsArr = tNode.colsHeadArr;
     var numRows = tNode.numRows;
     var repeat = tNode.repeat;
     var paged = tNode.paged;
+    var headed = tNode.headed;
     if (!numCols) {
         numCols = 0;
     }
@@ -679,6 +685,9 @@ function listAction(tNode) {
     if (!paged) {
         paged = 0;
     }
+    if (!headed) {
+        headed = 0;
+    }
     if (!colsArr) {
         colsArr = [];
     }
@@ -686,10 +695,15 @@ function listAction(tNode) {
     $("#numRows").val(numRows);
     $("#repeat").val(repeat);
     $("#paged").val(paged);
+    $("#headed").val(headed);
     addCol();
+    addhead();
     for (var i = 0; i < numCols; i++) {
         $("#col" + (i + 1)).val(colsArr[i]);
+        $("#head" + (i + 1)).val(headsArr[i]);
     }
+    // for (var i = 0; i < numCols; i++) {i
+    // }
 }
 
 /**
@@ -895,12 +909,29 @@ function getSettingHtml(nodeName, tNode) {
             '                                <span class="input-group-addon">是否分页</span>\n' +
             '                                <input id = "paged"  class="form-control">\n' +
             '                            </div>\n' +
+            '                            <div class="input-group">\n' +
+            '                                <span class="input-group-addon">是否有表头（1：有，0：无）</span>\n' +
+            '                                <input id = "headed"  class="form-control">\n' +
+            '                            </div>\n' +
             '                            <div class="col-md-12 input-group ">\n' +
             '                                <span class="input-group-addon">列数</span>\n' +
-            '                                <input id="numCols" class="form-control" oninput="addCol()">\n' +
+            '                                <input id="numCols" class="form-control" oninput="addCol();addhead()">\n' +
             '                                <span class="input-group-addon">列</span>\n' +
             '                            </div>\n' +
             '                            <table class="table" id="cols">\n' +
+            '                                <thead>\n' +
+            // '                                <tr>\n' +
+            // '                                    <th><b>每列相对宽度</b></th>\n' +
+            // '                                </tr>\n' +
+            '                                </thead>\n' +
+            '                                <tbody>\n' +
+            // '                                   <div class="input-group">\n' +
+            // '                                           <label for="spinnerCol00" class="input-group-addon">第1列</label>\n' +
+            // '                                           <input id="spinnerCol00" class="form-control"> \n' +
+            // '                                   </div>' +
+            '                                </tbody>\n' +
+            '                            </table>\n' +
+            '                            <table class="table" id="heads">\n' +
             '                                <thead>\n' +
             // '                                <tr>\n' +
             // '                                    <th><b>每列相对宽度</b></th>\n' +
@@ -1266,64 +1297,68 @@ function getSettingHtml(nodeName, tNode) {
             '                                <input id="text" class="form-control" value="">\n' +
             '<!--                                <span class="input-group-addon">列</span>-->\n' +
             '                            </div>\n' +
-            '                            <div class="col-md-12 input-group">\n' +
-            '                                <span class="input-group-addon">列头内容</span>\n' +
-            '                                <input id="headText" class="form-control" value="">\n' +
-            '<!--                                <span class="input-group-addon">列</span>-->\n' +
-            '                            </div>\n' +
+            // '                            <div class="col-md-12 input-group">\n' +
+            // '                                <span class="input-group-addon">列头内容</span>\n' +
+            // '                                <input id="headText" class="form-control" value="">\n' +
+            // '<!--                                <span class="input-group-addon">列</span>-->\n' +
+            // '                            </div>\n' +
             '                            <div class="col-md-12 input-group">\n' +
             '                                <span class="input-group-addon">参数内容</span>\n' +
             '                                <input id="parameter" class="form-control" value="">\n' +
             '<!--                                <span class="input-group-addon">行</span>-->\n' +
             '                            </div>\n' +
+            // '                            <div class="col-md-12 input-group">\n' +
+            // '                                <span class="input-group-addon">字体</span>\n' +
+            // '                                <input id="fontBase" class="form-control" value="">\n' +
+            // '                            </div>\n' +
             '                            <div class="col-md-12 input-group">\n' +
-            '                                <span class="input-group-addon">字体</span>\n' +
-            '                                <input id="fontBase" class="form-control" value="">\n' +
+            '                                <span class="input-group-addon">是否自适应（true：是，false：否）</span>\n' +
+            '                                <input id="isAdaptive" class="form-control" value="">\n' +
             '                            </div>\n' +
             '                            <div class="col-md-12 input-group">\n' +
             '                                <span class="input-group-addon">字号</span>\n' +
             '                                <input id="fontSize" class="form-control" value="">\n' +
             '                            </div>\n' +
-            '                            <div class="col-md-12 input-group">\n' +
-            '                                <span class="input-group-addon">加粗，斜体</span>\n' +
-            '                                <input id="fontStyle" class="form-control" value="">\n' +
-            '                                <!--                                <span class="input-group-addon">列</span>-->\n' +
-            '                            </div>\n' +
+            // '                            <div class="col-md-12 input-group">\n' +
+            // '                                <span class="input-group-addon">加粗，斜体</span>\n' +
+            // '                                <input id="fontStyle" class="form-control" value="">\n' +
+            // '                                <!--                                <span class="input-group-addon">列</span>-->\n' +
+            // '                            </div>\n' +
             '                        </div>\n' +
             '                        <div class="panel-body">\n' +
-            '                            <table class="table" id="paddings">\n' +
-            '                                <thead>\n' +
-            '                                <tr>\n' +
-            '                                    <th><b>内边距</b></th>\n' +
-            '                                </tr>\n' +
-            '                                </thead>\n' +
-            '                                <tbody>\n' +
-            '                                <tr>\n' +
-            '                                    <td>\n' +
-            '                                        <label for="paddingLeft" class="ui-controlgroup-label">左边距</label>\n' +
-            '                                        <input id="paddingLeft" value="16">\n' +
-            '                                    </td>\n' +
-            '                                </tr>\n' +
-            '                                <tr>\n' +
-            '                                    <td>\n' +
-            '                                        <label for="paddingRight" class="ui-controlgroup-label">右边距</label>\n' +
-            '                                        <input id="paddingRight" value="16">\n' +
-            '                                    </td>\n' +
-            '                                </tr>\n' +
-            '                                <tr>\n' +
-            '                                    <td>\n' +
-            '                                        <label for="paddingTop" class="ui-controlgroup-label">上边距</label>\n' +
-            '                                        <input id="paddingTop" value="16">\n' +
-            '                                    </td>\n' +
-            '                                </tr>\n' +
-            '                                <tr>\n' +
-            '                                    <td>\n' +
-            '                                        <label for="paddingBottom" class="ui-controlgroup-label">下边距</label>\n' +
-            '                                        <input id="paddingBottom" value="16">\n' +
-            '                                    </td>\n' +
-            '                                </tr>\n' +
-            '                                </tbody>\n' +
-            '                            </table>\n' +
+            // '                            <table class="table" id="paddings">\n' +
+            // '                                <thead>\n' +
+            // '                                <tr>\n' +
+            // '                                    <th><b>内边距</b></th>\n' +
+            // '                                </tr>\n' +
+            // '                                </thead>\n' +
+            // '                                <tbody>\n' +
+            // '                                <tr>\n' +
+            // '                                    <td>\n' +
+            // '                                        <label for="paddingLeft" class="ui-controlgroup-label">左边距</label>\n' +
+            // '                                        <input id="paddingLeft" value="16">\n' +
+            // '                                    </td>\n' +
+            // '                                </tr>\n' +
+            // '                                <tr>\n' +
+            // '                                    <td>\n' +
+            // '                                        <label for="paddingRight" class="ui-controlgroup-label">右边距</label>\n' +
+            // '                                        <input id="paddingRight" value="16">\n' +
+            // '                                    </td>\n' +
+            // '                                </tr>\n' +
+            // '                                <tr>\n' +
+            // '                                    <td>\n' +
+            // '                                        <label for="paddingTop" class="ui-controlgroup-label">上边距</label>\n' +
+            // '                                        <input id="paddingTop" value="16">\n' +
+            // '                                    </td>\n' +
+            // '                                </tr>\n' +
+            // '                                <tr>\n' +
+            // '                                    <td>\n' +
+            // '                                        <label for="paddingBottom" class="ui-controlgroup-label">下边距</label>\n' +
+            // '                                        <input id="paddingBottom" value="16">\n' +
+            // '                                    </td>\n' +
+            // '                                </tr>\n' +
+            // '                                </tbody>\n' +
+            // '                            </table>\n' +
             '                            <table class="table" id="alignment">\n' +
             '                                <thead>\n' +
             '                                <tr>\n' +
@@ -1495,8 +1530,26 @@ function addCol() {
     }
     for (var i = 0; i < numCols; i++) {
         $("#cols>tbody").append('<div class="col-md-12 input-group">\n' +
-            '                                <span class="input-group-addon">第' + i + '列</span>\n' +
+            '                                <span class="input-group-addon">第' + (i+1) + '列</span>\n' +
             '                                <input id="col' + (i + 1) + '" class="form-control">\n' +
+            // '                                <span class="input-group-addon">列</span>\n' +
+            '                            </div>')
+        $("#spinnerCol" + i).spinner();
+    }
+}
+function addhead() {
+    var numCols = $("#numCols").val();
+    $("#heads>tbody").html('');
+    $("#heads>thead").html('');
+    if (numCols > 0) {
+        $("#heads>thead").html('<tr>\n' +
+            '                                    <th><b>列头名称</b></th>\n' +
+            '                                </tr>');
+    }
+    for (var i = 0; i < numCols; i++) {
+        $("#heads>tbody").append('<div class="col-md-12 input-group">\n' +
+            '                                <span class="input-group-addon">第' + (i+1) + '列</span>\n' +
+            '                                <input id="head' + (i + 1) + '" class="form-control">\n' +
             // '                                <span class="input-group-addon">列</span>\n' +
             '                            </div>')
         $("#spinnerCol" + i).spinner();
@@ -1678,16 +1731,17 @@ function savePropertiesOfCell(node) {
  * @param node
  */
 function savePropertiesOfColumn(node) {
-    node.paddingLeft = parseInt($('#paddingLeft').val());
-    node.paddingRight = parseInt($('#paddingRight').val());
-    node.paddingTop = parseInt($('#paddingTop').val());
-    node.paddingBottom = parseInt($('#paddingBottom').val());
-    node.fontBase = $('#fontBase').val();
+    // node.paddingLeft = parseInt($('#paddingLeft').val());
+    // node.paddingRight = parseInt($('#paddingRight').val());
+    // node.paddingTop = parseInt($('#paddingTop').val());
+    // node.paddingBottom = parseInt($('#paddingBottom').val());
+    // node.fontBase = $('#fontBase').val();
     node.fontSize = parseInt($('#fontSize').val());
-    node.fontStyle = parseInt($('#fontStyle').val());
+    // node.fontStyle = parseInt($('#fontStyle').val());
     node.parameter = $('#parameter').val();
+    node.isAdaptive = $('#isAdaptive').val();
     node.text = $('#text').val();
-    node.headText = $('#headText').val();
+    // node.headText = $('#headText').val();
     node.horizontalAlignment = $('input[name="optionsRadioHori"]:checked').val();
     node.verticalAlignment = $('input[name="optionsRadioVer"]:checked').val();
 }
@@ -1700,12 +1754,17 @@ function savePropertiesOfList(node) {
     node.numRows = parseInt($('#numRows').val());
     node.repeat = parseInt($('#repeat').val());
     node.paged = parseInt($('#paged').val());
+    node.headed = parseInt($('#headed').val());
     var colsArr = $("#cols>tbody input");
+    var headsArr = $("#heads>tbody input");
     var cols = [];
+    var heads = [];
     for (var i = 0; i < colsArr.length; i++) {
         cols[cols.length] = parseInt(colsArr[i].value);
+        heads[heads.length] = headsArr[i].value;
     }
     node.colsRadioArr = cols;
+    node.colsHeadArr = heads;
 }
 
 /**
