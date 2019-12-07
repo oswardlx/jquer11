@@ -673,11 +673,19 @@ function listAction(tNode) {
     var repeat = tNode.repeat;
     var paged = tNode.paged;
     var headed = tNode.headed;
+    var cellHeight = tNode.cellHeight;
+    var headHeight = tNode.headHeight;
     if (!numCols) {
         numCols = 0;
     }
     if (!numRows) {
         numRows = 0;
+    }
+    if (!cellHeight) {
+        cellHeight = 0;
+    }
+    if (!headHeight) {
+        headHeight = 0;
     }
     if (!repeat) {
         repeat = 0;
@@ -696,6 +704,8 @@ function listAction(tNode) {
     $("#repeat").val(repeat);
     $("#paged").val(paged);
     $("#headed").val(headed);
+    $("#cellHeight").val(cellHeight);
+    $("#headHeight").val(headHeight);
     addCol();
     addhead();
     for (var i = 0; i < numCols; i++) {
@@ -904,6 +914,14 @@ function getSettingHtml(nodeName, tNode) {
             '                            <div class="input-group">\n' +
             '                                <span class="input-group-addon">重复次数</span>\n' +
             '                                <input id = "repeat"  class="form-control">\n' +
+            '                            </div>\n' +
+            '                            <div class="input-group">\n' +
+            '                                <span class="input-group-addon">数据高度</span>\n' +
+            '                                <input id = "cellHeight"  class="form-control">\n' +
+            '                            </div>\n' +
+            '                            <div class="input-group">\n' +
+            '                                <span class="input-group-addon">表头高度</span>\n' +
+            '                                <input id = "headHeight"  class="form-control">\n' +
             '                            </div>\n' +
             '                            <div class="input-group">\n' +
             '                                <span class="input-group-addon">是否分页</span>\n' +
@@ -1755,6 +1773,8 @@ function savePropertiesOfList(node) {
     node.repeat = parseInt($('#repeat').val());
     node.paged = parseInt($('#paged').val());
     node.headed = parseInt($('#headed').val());
+    node.cellHeight = parseInt($('#cellHeight').val());
+    node.headHeight = parseInt($('#headHeight').val());
     var colsArr = $("#cols>tbody input");
     var headsArr = $("#heads>tbody input");
     var cols = [];
