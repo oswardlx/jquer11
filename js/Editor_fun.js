@@ -1775,6 +1775,7 @@ function savePropertiesOfList(node) {
     node.headed = parseInt($('#headed').val());
     node.cellHeight = parseInt($('#cellHeight').val());
     node.headHeight = parseInt($('#headHeight').val());
+    node.fromNum = 0;
     var colsArr = $("#cols>tbody input");
     var headsArr = $("#heads>tbody input");
     var cols = [];
