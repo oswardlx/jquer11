@@ -1780,6 +1780,11 @@ function savePropertiesOfList(node) {
     var headsArr = $("#heads>tbody input");
     var cols = [];
     var heads = [];
+    debugger;
+    if(node.paged == '1'){
+        zNodes[0].numRows = node.numRows;
+        zNodes[0].repeat = node.repeat;
+    }
     for (var i = 0; i < colsArr.length; i++) {
         cols[cols.length] = parseInt(colsArr[i].value);
         heads[heads.length] = headsArr[i].value;
